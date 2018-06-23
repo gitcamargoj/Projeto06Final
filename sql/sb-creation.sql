@@ -1,4 +1,9 @@
+DROP TABLE appointments;
 DROP TABLE users;
+DROP TABLE prices;
+DROP TABLE patients;
+DROP TABLE dentists;
+
 CREATE TABLE users(
     id BIGINT not null primary key
         GENERATED ALWAYS AS IDENTITY
@@ -13,7 +18,6 @@ INSERT INTO users VALUES
 INSERT INTO users VALUES
 (default, 'SECRETÁRIA', 'Dolores Abernathy', 'dolores', 1509442);
 
-DROP TABLE dentists;
 CREATE TABLE dentists(
     id BIGINT not null primary key
         GENERATED ALWAYS AS IDENTITY
@@ -30,7 +34,6 @@ CREATE TABLE dentists(
     , dentist_zipcode varchar(8) not null
 );
 
-DROP TABLE patients;
 CREATE TABLE patients(
     id BIGINT not null primary key
         GENERATED ALWAYS AS IDENTITY
@@ -46,7 +49,6 @@ CREATE TABLE patients(
     , patient_zipcode varchar(8) not null
 );
 
-DROP TABLE prices;
 CREATE TABLE prices(
     id BIGINT not null primary key
         GENERATED ALWAYS AS IDENTITY
@@ -55,7 +57,6 @@ CREATE TABLE prices(
     , new_price DOUBLE PRECISION not null
 );
 
-DROP TABLE appointments;
 CREATE TABLE appointments(
     id BIGINT not null primary key
         GENERATED ALWAYS AS IDENTITY
