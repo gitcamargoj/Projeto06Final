@@ -2,11 +2,22 @@ package br.com.fatecpg.dentist;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class Consulta {
+    private long id_consulta;
+    private Date dia;
+    private Date hr_inicio;
+    private Date hr_fim;
+    private String status;
+    private double preco;
+    private String obs;
+    private long id_dentista;
+    private long id_cliente;
 
-    public Consulta(long id_consulta, Date hr_inicio, Date hr_fim, String status, double preco, String obs, long id_dentista, long id_cliente) {
+    public Consulta(long id_consulta, Date dia, Date hr_inicio, Date hr_fim, String status, double preco, String obs, long id_dentista, long id_cliente) {
         this.id_consulta = id_consulta;
+        this.dia = dia;
         this.hr_inicio = hr_inicio;
         this.hr_fim = hr_fim;
         this.status = status;
@@ -16,15 +27,6 @@ public class Consulta {
         this.id_cliente = id_cliente;
     }
     
-    private long id_consulta;
-    private Date hr_inicio;
-    private Date hr_fim;
-    private String status;
-    private double preco;
-    private String obs;
-    private long id_dentista;
-    private long id_cliente;
-
     public long getId_consulta() {
         return id_consulta;
     }
@@ -87,6 +89,51 @@ public class Consulta {
 
     public void setId_cliente(long id_cliente) {
         this.id_cliente = id_cliente;
+    }
+
+    public static ArrayList<Consulta> getConsulta() throws Exception{
+        String SQL = "SELECT * FROM tb_consulta";
+        ArrayList<Consulta> consultas = new ArrayList<>();
+        ArrayList<Object[]> list = DatabaseConnector.getQuery(SQL, new Object[]{});
+        for(int i = 0; i < list.size(); i++){
+            Object row[] = list.get(i);
+            Consulta c = new Consulta(
+                    (long) row[0]
+                    , (Date) row[1]
+                    , (Date) row[2]
+                    , (Date) row[3]
+                    , (String) row[4]
+                    , (double) row[5]
+                    , (String) row[6]
+                    , (long) row[7]
+                    , (long) row[8]);
+            consultas.add(c);
+        }
+        return consultas;
+    }
+    
+    public static void addConsulta(String dia, String horaInicio, String horaFim, double preco, String observacao, Long dentista, Long cliente) throws Exception{
+        String SQL = "INSERT INTO tb_consulta VALUES("
+                + "default"
+                + ", ?"
+                + ", ?"
+                + ", ?"
+                + ", default"
+                + ", ?"
+                + ", ?"
+                + ", ?"
+                + ", ?"
+                + ")";
+        Object parameters[] = {dia, horaInicio, horaFim, preco, observacao, dentista, cliente};
+        DatabaseConnector.execute(SQL, parameters);
+    }
+
+    public Date getDia() {
+        return dia;
+    }
+
+    public void setDia(Date dia) {
+        this.dia = dia;
     }
     
 }

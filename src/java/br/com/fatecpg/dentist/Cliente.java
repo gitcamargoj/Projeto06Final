@@ -1,6 +1,8 @@
 
 package br.com.fatecpg.dentist;
 
+import java.util.ArrayList;
+
 
 public class Cliente {
 
