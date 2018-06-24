@@ -14,8 +14,46 @@
     </head>
     <body>
         <%@include file="../WEB-INF/jspf/header.jspf" %>
-
-        <h3>Consultas Agendadas</h3>
+        
+        <center>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <caption>Lista de Consultas Agendadas</caption>
+                    <thead class="thead-dark">
+                            <tr>
+                            <th scope="col" rowspan="2">Data</th>
+                            <th scope="col" rowspan="2">Entrada</th>
+                            <th scope="col" rowspan="2">Saída</th>
+                            <th scope="col" rowspan="2">Profissional</th>
+                            <th scope="col" rowspan="2">CRO</th>
+                            <th scope="col" rowspan="2">Status</th>
+                            <th scope="col" rowspan="2">Observação</th>
+                        </tr>
+                    </thead>
+                    <% for(User u: User.getUsers()){ %>
+                        <tbody>
+                            <tr>
+                                <td><%= u.getId() %></td>
+                                <td><%= u.getRole() %></td>
+                                <td><%= u.getName() %></td>
+                                <td><%= u.getLogin() %></td>
+                                <td><%= u.getLogin() %></td>
+                                <td><%= u.getLogin() %></td>
+                                <td>
+                                    <table class="table-bordered table-sm">
+                                        <tr class="table-secondary">
+                                        <td>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. <br> Nam ultrices porttitor urna quis egestas. <br> Aenean mollis, libero quis consectetur mollis, neque nunc gravida orci, nec consectetur mauris diam sit amet metus. In porta libero turpis, sed porta libero laoreet auctor. </p>
+                                        </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    <% } %>
+                </table>
+            </div>
+        </center>
         
         <%@include file="../WEB-INF/jspf/bootstrap_bottom.jspf" %>
     </body>

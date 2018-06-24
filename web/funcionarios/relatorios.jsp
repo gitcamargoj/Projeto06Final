@@ -8,10 +8,13 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <%@include file="../WEB-INF/jspf/bootstrap_top.jspf" %>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Relatórios - ACO</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <%@include file="../WEB-INF/jspf/header.jspf" %>
+        
+        <%@include file="../WEB-INF/jspf/bootstrap_bottom.jspf" %>
     </body>
 </html>

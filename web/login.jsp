@@ -10,7 +10,7 @@
     <head>
         <%@include file="WEB-INF/jspf/bootstrap_top.jspf" %>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Login - Agenda de Consultas Odontológicas</title>
+        <title>Login - ACO</title>
         <style>
             @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
@@ -119,6 +119,7 @@
 
         <div class="login-page">
           <h3 style="color: white; font-weight: bold;">ACO - Login</h3>
+          <legend style="color: white; font-weight: bold; font-size: 125%;">Agenda de Consultas Odontológicas</legend>
           <div class="form">
             <form class="login-form" method="POST" action="cliente/consultas_agendadas.jsp">
                 <input type="text" placeholder="usuário" name="login" required/>
