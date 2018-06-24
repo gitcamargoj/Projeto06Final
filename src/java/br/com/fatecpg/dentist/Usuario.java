@@ -1,6 +1,8 @@
 
 package br.com.fatecpg.dentist;
 
+import java.util.ArrayList;
+
 public class Usuario {
     
     private long id_usuario;
@@ -8,6 +10,7 @@ public class Usuario {
     private String nome;
     private String telefone;
     private String login;
+    private Long hashSenha;
 
     public Usuario(long id_usuario, String papel, String nome, String telefone, String login, Long hashSenha) {
         this.id_usuario = id_usuario;
@@ -17,8 +20,7 @@ public class Usuario {
         this.login = login;
         this.hashSenha = hashSenha;
     }
-    private Long hashSenha;
-
+    
     public long getId_usuario() {
         return id_usuario;
     }
@@ -65,6 +67,61 @@ public class Usuario {
 
     public void setHashSenha(Long hashSenha) {
         this.hashSenha = hashSenha;
+    }
+    
+    public static Usuario getUsuario(String login, String senha) throws Exception{
+        String SQL = "SELECT * FROM tb_usuario WHERE login = ? AND hashSenha = ?";
+        Object parameters[] = {login, senha.hashCode()};
+        ArrayList<Object[]> list = DatabaseConnector.getQuery(SQL, parameters);
+        if(list.isEmpty()){
+            return null;
+        }else{
+            Object row[] = list.get(0);
+            Usuario u = new Usuario(
+                    (long) row[0]
+                    , (String) row[1]
+                    , (String) row[2]
+                    , (String) row[3]
+                    , (String) row[4]
+                    , (long) row[5]);
+            return u;
+        }
+    }
+    
+    public static ArrayList<Usuario> getUsuarios() throws Exception{
+        String SQL = "SELECT * FROM tb_usuario";
+        ArrayList<Usuario> usuarios = new ArrayList<>();
+        ArrayList<Object[]> list = DatabaseConnector.getQuery(SQL, new Object[]{});
+        for(int i = 0; i < list.size(); i++){
+            Object row[] = list.get(i);
+            Usuario u = new Usuario(
+                    (long) row[0]
+                    , (String) row[1]
+                    , (String) row[2]
+                    , (String) row[3]
+                    , (String) row[4]
+                    , (long) row[5]);
+            usuarios.add(u);
+        }
+        return usuarios;
+    }
+    public static void addUsuario(String papel, String nome,String telefone, String login, long hashSenha) throws Exception{
+        String SQL = "INSERT INTO USERS VALUES("
+                + "default"
+                + ", ?"
+                + ", ?"
+                + ", ?"
+                + ", ?"
+                + ", ?"
+                + ")";
+        Object parameters[] = {papel, nome,telefone, login, hashSenha};
+        DatabaseConnector.execute(SQL, parameters);
+    }
+    
+    public static void removeUsuario(long id) throws Exception{
+        String SQL = "DELETE FROM tb_usuario WHERE ID = ?";
+        Object parameters[] = {id};
+        DatabaseConnector.execute(SQL, parameters);
     }
     
 }

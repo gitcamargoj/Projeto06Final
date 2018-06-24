@@ -1,47 +1,47 @@
 <%-- any content can be specified here e.g.: --%>
-<%@page import="br.com.fatecpg.dentist.User" %>
+<%@page import="br.com.fatecpg.dentist.Usuario" %>
 <%@ page pageEncoding="UTF-8" %>
 <%
     String path = request.getContextPath();
     String errorMessage = null;
     if(request.getParameter("formLogin") != null){
         String login = request.getParameter("login");
-        String pass = request.getParameter("pass");
-        User u = User.getUser(login, pass);
+        String senha = request.getParameter("senha");
+        Usuario u = Usuario.getUsuario(login, senha);
         if(u == null){
             errorMessage = "Usuário e/ou senha inválido(s)";
         }else{
-            session.setAttribute("user", u);
+            session.setAttribute("usuario", u);
             response.sendRedirect(request.getRequestURI());
         }
     }
     if(request.getParameter("formLogoff") != null){
-        session.removeAttribute("user");
+        session.removeAttribute("usuario");
         response.sendRedirect("../login.jsp");
     }
 %>
 <% if(errorMessage != null){ %>
 <h3 style="color: red"><%= errorMessage %></h3>
 <% } %>
-<%if(session.getAttribute("user") == null){%>
+<%if(session.getAttribute("usuario") == null){%>
 <span class="navbar-text">Você precisa entrar para acessar essa funcionalidade. <a href="<%=path%>/login.jsp">Fazer login!</a></span>
 <%}else {%>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand"><% User user = (User) session.getAttribute("user"); %> Olá, <%= user.getName() %></a>
+        <a class="navbar-brand"><% Usuario usuario = (Usuario) session.getAttribute("usuario"); %> Olá, <%= usuario.getNome() %></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
-    <% if(user.getRole().equals("CLIENTE")){ %>        
+    <% if(usuario.getPapel().equals("CLIENTE")){ %>        
           <li class="nav-item dropdown active">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Dados do Cliente
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" >ID: <%= user.getId()%></a>
-              <a class="dropdown-item" >Papel: <%= user.getRole()%></a>
-              <a class="dropdown-item" >Nome: <%= user.getName() %></a>
+              <a class="dropdown-item" >ID: <%= usuario.getId_usuario()%></a>
+              <a class="dropdown-item" >Papel: <%= usuario.getPapel()%></a>
+              <a class="dropdown-item" >Nome: <%= usuario.getNome() %></a>
               <a class="dropdown-item" >Telefone: </a>
               <a class="dropdown-item" >Endereço: </a>
               <div class="dropdown-divider"></div>
@@ -51,21 +51,21 @@
           <li class="nav-item active">
               <a class="nav-link" href="<%=path%>/cliente/consultas_agendadas.jsp">Consultas Agendadas</a>
           </li>
-    <% } else if(user.getRole().equals("ADMIN")){ %>
+    <% } else if(usuario.getPapel().equals("ADMIN")){ %>
           <li class="nav-item dropdown active">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Sessão
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" >ID: <%= user.getId()%></a>
-              <a class="dropdown-item" >Papel: <%= user.getRole()%></a>
-              <a class="dropdown-item" >Usuário: <%= user.getLogin()%></a>
+              <a class="dropdown-item" >ID: <%= usuario.getId_usuario()%></a>
+              <a class="dropdown-item" >Papel: <%= usuario.getPapel()%></a>
+              <a class="dropdown-item" >Usuário: <%= usuario.getLogin()%></a>
               <div class="dropdown-divider"></div>
               <form><input class="dropdown-item" type="submit" name="formLogoff" value="Sair"/></form>
             </div>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="<%=path%>/funcionarios/users.jsp">Cadastro de Usúarios</a>
+            <a class="nav-link" href="<%=path%>/funcionarios/usuarios.jsp">Cadastro de Usúarios</a>
           </li>
           <li class="nav-item active">
               <a class="nav-link" href="<%=path%>/cliente/consultas_agendadas.jsp">Consultas Agendadas</a>
@@ -73,21 +73,21 @@
           <li class="nav-item active">
             <a class="nav-link" href="<%=path%>/funcionarios/relatorios.jsp">Relatórios</a>
           </li>
-    <% } else if(user.getRole().equals("SECRETÁRIA") || user.getRole().equals("SECRETÁRIO")) { %>
+    <% } else if(usuario.getPapel().equals("SECRETÁRIA") || usuario.getPapel().equals("SECRETÁRIO")) { %>
           <li class="nav-item dropdown active">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Sessão
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" >ID: <%= user.getId()%></a>
-              <a class="dropdown-item" >Papel: <%= user.getRole()%></a>
-              <a class="dropdown-item" >Usuário: <%= user.getLogin()%></a>
+              <a class="dropdown-item" >ID: <%= usuario.getId_usuario()%></a>
+              <a class="dropdown-item" >Papel: <%= usuario.getPapel()%></a>
+              <a class="dropdown-item" >Usuário: <%= usuario.getLogin()%></a>
               <div class="dropdown-divider"></div>
               <form><input class="dropdown-item" type="submit" name="formLogoff" value="Sair"/></form>
             </div>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="<%=path%>/funcionarios/users.jsp">Cadastro de Usúarios</a>
+            <a class="nav-link" href="<%=path%>/funcionarios/usuarios.jsp">Cadastro de Usúarios</a>
           </li>
           <li class="nav-item active">
             <a class="nav-link" href="<%=path%>/funcionarios/agendamento_de_consultas.jsp">Agendamento de Consultas</a>
@@ -95,15 +95,15 @@
           <li class="nav-item active">
               <a class="nav-link" href="<%=path%>/cliente/consultas_agendadas.jsp">Consultas Agendadas</a>
           </li>
-    <% } else if(user.getRole().equals("DENTISTA")) {%>
+    <% } else if(usuario.getPapel().equals("DENTISTA")) {%>
           <li class="nav-item dropdown active">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Sessão
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" >ID: <%= user.getId()%></a>
-              <a class="dropdown-item" >Papel: <%= user.getRole()%></a>
-              <a class="dropdown-item" >Usuário: <%= user.getLogin()%></a>
+              <a class="dropdown-item" >ID: <%= usuario.getId_usuario()%></a>
+              <a class="dropdown-item" >Papel: <%= usuario.getPapel()%></a>
+              <a class="dropdown-item" >Usuário: <%= usuario.getLogin()%></a>
               <div class="dropdown-divider"></div>
               <form><input class="dropdown-item" type="submit" name="formLogoff" value="Sair"/></form>
             </div>

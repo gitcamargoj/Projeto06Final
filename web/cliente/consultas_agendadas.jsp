@@ -30,12 +30,12 @@
                             <th scope="col" rowspan="2">Observação</th>
                         </tr>
                     </thead>
-                    <% for(User u: User.getUsers()){ %>
+                    <% for(Usuario u: Usuario.getUsuarios()){ %>
                         <tbody>
                             <tr>
-                                <td><%= u.getId() %></td>
-                                <td><%= u.getRole() %></td>
-                                <td><%= u.getName() %></td>
+                                <td><%= u.getId_usuario() %></td>
+                                <td><%= u.getPapel() %></td>
+                                <td><%= u.getNome() %></td>
                                 <td><%= u.getLogin() %></td>
                                 <td><%= u.getLogin() %></td>
                                 <td><%= u.getLogin() %></td>

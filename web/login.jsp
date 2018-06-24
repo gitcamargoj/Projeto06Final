@@ -123,7 +123,7 @@
           <div class="form">
             <form class="login-form" method="POST" action="cliente/consultas_agendadas.jsp">
                 <input type="text" placeholder="usuário" name="login" required/>
-                <input type="password" placeholder="senha" name="pass" required/>
+                <input type="password" placeholder="senha" name="senha" required/>
                 <button type="submit" name="formLogin">Entrar</button>
             </form>
           </div>
