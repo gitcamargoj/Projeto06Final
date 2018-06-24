@@ -65,3 +65,35 @@ INSERT INTO tb_usuario VALUES
 (default, 'ADMIN', 'Administrator','11-75646547', 'admin', 1509442);
 INSERT INTO tb_usuario VALUES
 (default, 'SECRETÁRIA', 'Dolores Abernathy','13-5467-1234', 'dolores', 1509442);
+
+/* Junior: inserindo alguns papeis */
+
+INSERT INTO tb_usuario VALUES
+(default, 'DENTISTA', 'Lee Sizemore','13-98250-4048', 'lee', 1509442);
+
+INSERT INTO tb_dentista VALUES
+(default, '30229-SP', 3);
+
+INSERT INTO tb_usuario VALUES
+(default, 'DENTISTA', 'Theresa Cullen','12-99680-7078', 'theresa', 1509442);
+
+INSERT INTO tb_dentista VALUES
+(default, '15987-SP', 4);
+
+INSERT INTO tb_usuario VALUES
+(default, 'SECRETÁRIO', 'Peter Abernathy','13-99680-5058', 'peter', 1509442);
+
+INSERT INTO tb_usuario VALUES
+(default, 'CLIENTE', 'Logan Delos','13-3596-3890', 'logan', 1509442);
+
+INSERT INTO tb_usuario VALUES
+(default, 'CLIENTE', 'Hector Escaton','13-97504-6788', 'hector', 1509442);
+
+INSERT INTO tb_usuario VALUES
+(default, 'CLIENTE', 'Elsie Hughes','11-5555-7070', 'elsie', 1509442);
+
+INSERT INTO tb_usuario VALUES
+(default, 'CLIENTE', 'Maeve Millay','11-97888-5650', 'maeve', 1509442);
+
+INSERT INTO tb_usuario VALUES
+(default, 'CLIENTE', 'Teddy Flood','11-97888-3030', 'teddy', 1509442);

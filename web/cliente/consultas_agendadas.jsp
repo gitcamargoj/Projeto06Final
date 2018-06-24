@@ -14,7 +14,44 @@
     </head>
     <body>
         <%@include file="../WEB-INF/jspf/header.jspf" %>
-        
+        <%if(session.getAttribute("usuario") == null){%>
+            <h2>É preciso estar autenticado para acessar este recurso</h2>
+        <% }else {%>
+            <% Usuario usuario = (Usuario) session.getAttribute("usuario"); %>
+            <% if(!usuario.getPapel().equals("ADMIN") & !usuario.getPapel().equals("SECRETÁRIA") & !usuario.getPapel().equals("SECRETÁRIO")){%>
+            <h2>Você não tem permissão para acessar este recurso</h2>
+            <% }else {%>
+            <%-- <% if(error != null){ %>
+            <h3><%= error %></h3> --%>
+            <% } %>
+            
+            <center>
+            <fieldset>
+                <legend>Agendar Novas Consultas</legend>
+                <form>
+                    Nome: <input type="text" name="nome"/>
+                    Papel: 
+                    <select name="papel">
+                        <option value="HR_INICIO">Começa as</option>
+                        <option value="HR_FIM">Termina as</option>
+                        <option value="STATUS">Secretária</option>
+                        <option value="PRECO">Secretário</option>
+                        <option value="OBS">Dentista</option>
+                        <option value="CLIENTE">Cliente</option>
+                        <option value="DENTISTA">Cliente</option>
+                    </select>
+                    Começa as <input type="text" name="login"/>
+                    Termina as <input type="text" name="login"/>
+                    Status <input type="text" name="login"/>
+                    Preço <input type="text" name="login"/>
+                    Observação <input type="text" name="login"/>
+                    Cliente <input type="text" name="login"/>
+                    Dentista <input type="password" name="senha"/>
+                    <input type="submit" name="formNewUsuario" value="Adicionar"/>
+                </form>
+            </fieldset> <br>
+            </center>
+    
         <center>
             <div class="table-responsive">
                 <table class="table table-hover">
@@ -54,6 +91,7 @@
                 </table>
             </div>
         </center>
+        <% } %>
         
         <%@include file="../WEB-INF/jspf/bootstrap_bottom.jspf" %>
     </body>
