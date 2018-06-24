@@ -17,6 +17,9 @@
         
         <center>
             <div class="table-responsive">
+                
+                <%if(session.getAttribute("usuario") != null){%>  
+                
                 <table class="table table-hover">
                     <caption>Lista de Consultas Agendadas</caption>
                     <thead class="thead-dark">
@@ -52,6 +55,9 @@
                         </tbody>
                     <% } %>
                 </table>
+                
+                <% } %>
+                
             </div>
         </center>
         

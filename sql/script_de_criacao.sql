@@ -65,3 +65,7 @@ INSERT INTO tb_usuario VALUES
 (default, 'ADMIN', 'Administrator','11-75646547', 'admin', 1509442);
 INSERT INTO tb_usuario VALUES
 (default, 'SECRETÁRIA', 'Dolores Abernathy','13-5467-1234', 'dolores', 1509442);
+INSERT INTO tb_usuario VALUES
+(default, 'CLIENTE', 'Marcio Mendes','13-5467-1234', 'marcio', 1509442);
+INSERT INTO tb_usuario VALUES
+(default, 'SECRETÁRIA', 'Maria da Silva','13-5467-1234', 'maria', 1509442);
