@@ -1,16 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package br.com.fatecpg.dentist;
 
 import java.util.ArrayList;
 
-/**
- *
- * @author JOSEANTONIODECAMARGO
- */
 public class User {
     private long id;
     private String role;
