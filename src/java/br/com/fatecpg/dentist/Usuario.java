@@ -119,7 +119,7 @@ public class Usuario {
     }
     
     public static void removeUsuario(long id) throws Exception{
-        String SQL = "DELETE FROM tb_usuario WHERE ID = ?";
+        String SQL = "DELETE FROM tb_usuario WHERE id_usuario = ?";
         Object parameters[] = {id};
         DatabaseConnector.execute(SQL, parameters);
     }

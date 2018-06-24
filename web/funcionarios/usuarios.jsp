@@ -65,7 +65,7 @@
                 </fieldset> <br>
             </center>
             <center>
-                <% if(usuario.getPapel().equals("SECRETÁRIA") | usuario.getPapel().equals("SECRETÁRIO")) { %>
+                <% if(usuario.getPapel().equals("SECRETÁRIA") || usuario.getPapel().equals("SECRETÁRIO") ||usuario.getPapel().equals("ADMIN")) { %>
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <caption>Lista de Usuários do Sistema</caption>
@@ -86,44 +86,20 @@
                                     <td><%= u.getNome() %></td>
                                     <td><%= u.getTelefone() %></td>
                                     <td><%= u.getLogin() %></td>
+                                    <% if (usuario.getPapel().equals("ADMIN")) { %> 
+                                    <td>
+                                       <form>
+                                           <input type="hidden" name="id" value="<%= u.getId_usuario() %>"/>
+                                           <input type="submit" name="formDeleteUsuario" value="Remover"/>
+                                       </form>
+                                    </td>
+                                    <% } %>
                                 </tr>
                             </tbody>
                             <% } %>
                         </table>
                     </div>
-                    <% } else if(usuario.getPapel().equals("ADMIN")) { %>
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <caption>Lista de Usuários do Sistema</caption>
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th scope="col">ID</th>
-                                        <th scope="col">Papel</th>
-                                        <th scope="col">Nome</th>
-                                        <th scope="col">Telefone</th>
-                                        <th scope="col">Login</th>
-                                        <th scope="col">Remover</th>
-                                    </tr>
-                                </thead>
-                                <% for(Usuario u: Usuario.getUsuarios()){ %>
-                                <tbody>
-                                    <tr>
-                                        <td><%= u.getId_usuario() %></td>
-                                        <td><%= u.getPapel() %></td>
-                                        <td><%= u.getNome() %></td>
-                                        <td><%= u.getTelefone() %></td>
-                                        <td><%= u.getLogin() %></td>
-                                        <td>
-                                            <form>
-                                                <input type="hidden" name="id" value="<%= u.getId_usuario() %>"/>
-                                                <input type="submit" name="formDeleteUsuario" value="Remover"/>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                                <% } %>
-                            </table>
-                        </div>
+                    
                     <% } %>
             </center>
             
