@@ -10,6 +10,7 @@
         Usuario u = Usuario.getUsuario(login, senha);
         if(u == null){
             errorMessage = "Usuário e/ou senha inválido(s)";
+            session.removeAttribute("usuario");
         }else{
             session.setAttribute("usuario", u);
             response.sendRedirect(request.getRequestURI());
@@ -23,8 +24,15 @@
 <% if(errorMessage != null){ %>
 <h3 style="color: red"><%= errorMessage %></h3>
 <% } %>
+
+
+
 <%if(session.getAttribute("usuario") == null){%>
 <span class="navbar-text">Você precisa entrar para acessar essa funcionalidade. <a href="<%=path%>/login.jsp">Fazer login!</a></span>
+
+
+
+
 <%}else {%>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand"><% Usuario usuario = (Usuario) session.getAttribute("usuario"); %> Olá, <%= usuario.getNome() %></a>
@@ -42,7 +50,7 @@
               <a class="dropdown-item" >ID: <%= usuario.getId_usuario()%></a>
               <a class="dropdown-item" >Papel: <%= usuario.getPapel()%></a>
               <a class="dropdown-item" >Nome: <%= usuario.getNome() %></a>
-              <a class="dropdown-item" >Telefone: </a>
+              <a class="dropdown-item" >Telefone: <%= usuario.getTelefone() %></a>
               <a class="dropdown-item" >Endereço: </a>
               <div class="dropdown-divider"></div>
               <form><input class="dropdown-item" type="submit" name="formLogoff" value="Sair"/></form>
@@ -51,6 +59,8 @@
           <li class="nav-item active">
               <a class="nav-link" href="<%=path%>/cliente/consultas_agendadas.jsp">Consultas Agendadas</a>
           </li>
+          
+          
     <% } else if(usuario.getPapel().equals("ADMIN")){ %>
           <li class="nav-item dropdown active">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -73,6 +83,8 @@
           <li class="nav-item active">
             <a class="nav-link" href="<%=path%>/funcionarios/relatorios.jsp">Relatórios</a>
           </li>
+          
+          
     <% } else if(usuario.getPapel().equals("SECRETÁRIA") || usuario.getPapel().equals("SECRETÁRIO")) { %>
           <li class="nav-item dropdown active">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -95,6 +107,8 @@
           <li class="nav-item active">
               <a class="nav-link" href="<%=path%>/cliente/consultas_agendadas.jsp">Consultas Agendadas</a>
           </li>
+          
+          
     <% } else if(usuario.getPapel().equals("DENTISTA")) {%>
           <li class="nav-item dropdown active">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -17,9 +17,9 @@
         String nome = request.getParameter("nome");
         String telefone = request.getParameter("telefone");
         String login = request.getParameter("login");
-        long passwordHash = request.getParameter("pass").hashCode();
+        long hashSenha = request.getParameter("senha").hashCode();
         try {
-            Usuario.addUsuario(papel, nome,telefone, login, passwordHash);
+            Usuario.addUsuario(papel, nome,telefone, login, hashSenha);
             response.sendRedirect(request.getRequestURI());
         }catch(Exception e) {
             error = e.getMessage();
@@ -49,6 +49,7 @@
                 <legend>Cadastro de Novos Usuários</legend>
                 <form>
                     Nome: <input type="text" name="nome"/>
+                    Telefone: <input type="text" name="telefone">
                     Papel: 
                     <select name="papel">
                         <option value="ADMIN">ADMIN</option>
@@ -99,6 +100,7 @@
                                         <th scope="col">ID</th>
                                         <th scope="col">Papel</th>
                                         <th scope="col">Nome</th>
+                                        <th scope="col">Telefone</th>
                                         <th scope="col">Login</th>
                                         <th scope="col">Remover</th>
                                     </tr>
@@ -109,6 +111,7 @@
                                         <td><%= u.getId_usuario() %></td>
                                         <td><%= u.getPapel() %></td>
                                         <td><%= u.getNome() %></td>
+                                        <td><%= u.getTelefone() %></td>
                                         <td><%= u.getLogin() %></td>
                                         <td>
                                             <form>

@@ -106,7 +106,7 @@ public class Usuario {
         return usuarios;
     }
     public static void addUsuario(String papel, String nome,String telefone, String login, long hashSenha) throws Exception{
-        String SQL = "INSERT INTO USERS VALUES("
+        String SQL = "INSERT INTO tb_usuario VALUES("
                 + "default"
                 + ", ?"
                 + ", ?"
