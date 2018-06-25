@@ -45,24 +45,24 @@
             <h3><%= error %></h3>
             <% } %>
             <center>
-            <fieldset>
-                <legend>Cadastro de Novos Usuários</legend>
-                <form>
-                    Nome: <input type="text" name="nome"/>
-                    Telefone: <input type="text" name="telefone">
-                    Papel: 
-                    <select name="papel">
-                        <option value="ADMIN">ADMIN</option>
-                        <option value="SECRETÁRIA">Secretária</option>
-                        <option value="SECRETÁRIO">Secretário</option>
-                        <option value="DENTISTA">Dentista</option>
-                        <option value="CLIENTE">Cliente</option>
-                    </select>
-                    Usuário: <input type="text" name="login"/>
-                    Senha: <input type="password" name="senha"/>
-                    <input type="submit" name="formNewUsuario" value="Adicionar"/>
-                </form>
-            </fieldset> <br>
+                <br><h3>Consultas Agendadas</h3><br>
+                <fieldset>
+                    <form>
+                        Nome: <input type="text" name="nome"/>
+                        Telefone: <input type="text" name="telefone">
+                        Papel: 
+                        <select name="papel">
+                            <option value="ADMIN">ADMIN</option>
+                            <option value="SECRETÁRIA">Secretária</option>
+                            <option value="SECRETÁRIO">Secretário</option>
+                            <option value="DENTISTA">Dentista</option>
+                            <option value="CLIENTE">Cliente</option>
+                        </select>
+                        Usuário: <input type="text" name="login"/>
+                        Senha: <input type="password" name="senha"/>
+                        <input type="submit" name="formNewUsuario" value="Adicionar"/>
+                    </form>
+                </fieldset> <br>
             </center>
             <center>
                 <% if(usuario.getPapel().equals("SECRETÁRIA") || usuario.getPapel().equals("SECRETÁRIO") ||usuario.getPapel().equals("ADMIN")) { %>

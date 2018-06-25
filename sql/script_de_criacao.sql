@@ -46,7 +46,7 @@ CREATE TABLE tb_consulta(
     , dia date
     , hr_inicio time
     , hr_fim time
-    , status varchar(50) not null
+    , status varchar(50) default 'AGENDADA' not null
     , preco DOUBLE PRECISION 
     , obs varchar(200)
     , id_dentista BIGINT not null
