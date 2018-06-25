@@ -134,8 +134,16 @@
             <h3><%= error %></h3>
             <% } %>
             <center>
-                <br><h3>Consultas Agendadas</h3><br>
+                <br><h3>Cadastro de usuários</h3><br>
                 
+                                <fieldset>
+                <form>
+                 Adicionar: &nbsp;<input type="submit" name="AddUsuario" value="DENTISTA"/>&nbsp; 
+                 <input type="submit" name="AddUsuario" value="USUARIO"/>  
+                </form>
+                </fieldset><br>
+                
+                <% if (request.getParameter("AddUsuario") != null && request.getParameter("AddUsuario").equals("DENTISTA")){ %>
                 <h4>Novo Dentista</h4>
                 <fieldset>
                     <form>
@@ -163,10 +171,11 @@
                             <input type="submit" name="formNewDentista" value="Adicionar"/>
                             </tr>
                         <% } %>
-                        
                     </form>
                 </fieldset> <br>
+                <% } %>
                 
+                <% if (request.getParameter("AddUsuario") != null && !request.getParameter("AddUsuario").equals("DENTISTA")){ %>
                 <h4>Novo Usuário</h4>
                 <fieldset>
                     <form>
@@ -200,7 +209,7 @@
                         <% } %>
                     </form>
                 </fieldset> <br>
-                
+                <% } %>
                 
                 
             </center>

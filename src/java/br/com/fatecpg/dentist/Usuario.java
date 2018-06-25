@@ -115,8 +115,9 @@ public class Usuario {
                     , (long) row[5]);
             return u;
         }
+    }
 
-    public static Usuario getUsuario(String login, String senha) throws Exception{
+    public static Usuario getUsuario(String login, String senha) throws Exception {
         String SQL = "SELECT * FROM tb_usuario WHERE login = ? AND hashSenha = ?";
         Object parameters[] = {login, senha.hashCode()};
         ArrayList<Object[]> list = DatabaseConnector.getQuery(SQL, parameters);
