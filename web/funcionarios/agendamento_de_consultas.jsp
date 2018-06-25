@@ -4,7 +4,9 @@
     Author     : junior
 --%>
 
+<%@page import="java.util.Date"%>
 <%@page import="br.com.fatecpg.dentist.Consulta"%>
+<%@page import="java.time.Instant"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%
@@ -12,7 +14,7 @@
 
     if(request.getParameter("formNewConsulta") !=null){
         
-        String dia = request.getParameter("data");
+        String dia = (request.getParameter("data"));
         String horaInicio = request.getParameter("hr_inicio");
         String horaFim = request.getParameter("hr_fim");
 
@@ -74,17 +76,17 @@
                     <br>Cliente
                     <select name="cliente">
                         <% for(Usuario u: Usuario.getClientes()) { %>
-                        <%-- <% if(u.getPapel().equals("CLIENTE")) {%>
+                        
                                 <option value="<%= u.getFk_cliente()%>"><%= u.getNome() %></option>
-                            <% } %> --%>
+                            
                         <% } %>
                     </select>
                     Dentista
                     <select name="dentista">
                         <% for(Usuario u: Usuario.getDentistas()) { %>
-                        <%--    <% if(u.getPapel().equals("DENTISTA")) {%>
+
                                 <option value="<%= u.getFk_dentista()%>"><%= u.getNome() %></option>
-                            <% } %> --%>
+
                         <% } %>
                     </select> 
                     &nbsp;&nbsp;<input class="btn-default" type="submit" name="formNewConsulta" value="Adicionar"/>

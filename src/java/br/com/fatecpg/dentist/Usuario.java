@@ -12,13 +12,16 @@ public class Usuario {
     private String login;
     private Long hashSenha;
     
-    Long fk_dentista;
+    long fk_dentista;
     Long fk_cliente;
 
-    public Usuario(long id_usuario, String papel, long fk_dentista, long fk_cliente) {
+    public Usuario(long id_usuario, long fk_dentista) {
         this.id_usuario = id_usuario;
-        this.papel = papel;
         this.fk_dentista = fk_dentista;
+    }
+
+    public Usuario(long id_usuario, Long fk_cliente) {
+        this.id_usuario = id_usuario;
         this.fk_cliente = fk_cliente;
     }
 
@@ -133,32 +136,28 @@ public class Usuario {
     }
     
     public static ArrayList<Usuario> getDentistas() throws Exception{
-        String SQL = "SELECT * FROM tb_usuario a, tb_dentista b WHERE a.id_usuario = b.id_dentista";
+        String SQL = "SELECT a.id_usuario, b.id_dentista FROM tb_usuario a, tb_dentista b WHERE a.id_usuario = b.id_dentista";
         ArrayList<Usuario> usuarios = new ArrayList<>();
         ArrayList<Object[]> list = DatabaseConnector.getQuery(SQL, new Object[]{});
         for(int i = 0; i < list.size(); i++){
             Object row[] = list.get(i);
             Usuario u = new Usuario(
-                    (Long) row[0]
-                    , (String) row[1]
-                    , (Long) row[2]
-                    , (Long) row[3]);
+                    (long) row[0]
+                    , (long) row[1]);
             usuarios.add(u);
         }
         return usuarios;
     }
     
     public static ArrayList<Usuario> getClientes() throws Exception{
-        String SQL = "SELECT * FROM tb_usuario a, tb_cliente b WHERE a.id_usuario = b.id_cliente";
+        String SQL = "SELECT a.id_usuario, b.id_cliente FROM tb_usuario a, tb_cliente b WHERE a.id_usuario = b.id_cliente";
         ArrayList<Usuario> usuarios = new ArrayList<>();
         ArrayList<Object[]> list = DatabaseConnector.getQuery(SQL, new Object[]{});
         for(int i = 0; i < list.size(); i++){
             Object row[] = list.get(i);
             Usuario u = new Usuario(
-                    (Long) row[0]
-                    , (String) row[1]
-                    , (Long) row[2]
-                    , (Long) row[3]);
+                    (long) row[0]
+                    , (Long) row[1]);
             usuarios.add(u);
         }
         return usuarios;

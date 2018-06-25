@@ -36,6 +36,7 @@
                     <caption>Lista de Consultas Agendadas</caption>
                     <thead class="thead-dark">
                             <tr>
+                            <th scope="col" rowspan="2">Cliente</th>
                             <th scope="col" rowspan="2">Data</th>
                             <th scope="col" rowspan="2">Entrada</th>
                             <th scope="col" rowspan="2">Saída</th>
@@ -43,16 +44,18 @@
                             <th scope="col" rowspan="2">CRO</th>
                             <th scope="col" rowspan="2">Status</th>
                             <th scope="col" rowspan="2">Observação</th>
+                            <th scope="col" rowspan="2">Valor da Consulta</th>
                         </tr>
                     </thead>
                     <% for(Consulta c: Consulta.getConsulta()){ %>
                         <tbody>
                             <tr>
+                                <td><%= c.getNomeCliente() %></td>
                                 <td><%= c.getDia() %></td>
                                 <td><%= c.getHr_inicio() %></td>
                                 <td><%= c.getHr_fim() %></td>
-                                <td><%= c.getId_dentista() %></td>
-                                <td><%= c.getId_dentista() %></td>
+                                <td><%= c.getNomeDentista() %></td>
+                                <td><%= c.getCroDentista() %></td>
                                 <td><%= c.getStatus() %></td>
                                 <td>
                                     <table class="table-bordered table-sm">
@@ -63,6 +66,7 @@
                                         </tr>
                                     </table>
                                 </td>
+                                <td><%= c.getPreco() %></td>
                             </tr>
                         </tbody>
                     <% } %>

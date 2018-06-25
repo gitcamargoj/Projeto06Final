@@ -1,8 +1,9 @@
 package br.com.fatecpg.dentist;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
+
 
 public class Consulta {
     private long id_consulta;
@@ -15,6 +16,22 @@ public class Consulta {
     private long id_dentista;
     private long id_cliente;
 
+    private String nomeCliente;
+    private String nomeDentista;
+    private String croDentista;
+
+    public Consulta(Date dia, Date hr_inicio, Date hr_fim, String status, double preco, String obs, String nomeCliente, String nomeDentista, String croDentista) {
+        this.dia = dia;
+        this.hr_inicio = hr_inicio;
+        this.hr_fim = hr_fim;
+        this.status = status;
+        this.preco = preco;
+        this.obs = obs;
+        this.nomeCliente = nomeCliente;
+        this.nomeDentista = nomeDentista;
+        this.croDentista = croDentista;
+    }
+    /*
     public Consulta(long id_consulta, Date dia, Date hr_inicio, Date hr_fim, String status, double preco, String obs, long id_dentista, long id_cliente) {
         this.id_consulta = id_consulta;
         this.dia = dia;
@@ -25,7 +42,7 @@ public class Consulta {
         this.obs = obs;
         this.id_dentista = id_dentista;
         this.id_cliente = id_cliente;
-    }
+    } */
     
     public long getId_consulta() {
         return id_consulta;
@@ -90,23 +107,54 @@ public class Consulta {
     public void setId_cliente(long id_cliente) {
         this.id_cliente = id_cliente;
     }
+    public Date getDia() {
+        return dia;
+    }
+
+    public void setDia(Date dia) {
+        this.dia = dia;
+    }
+
+    public String getNomeCliente() {
+        return nomeCliente;
+    }
+
+    public void setNomeCliente(String nomeCliente) {
+        this.nomeCliente = nomeCliente;
+    }
+
+    public String getNomeDentista() {
+        return nomeDentista;
+    }
+
+    public void setNomeDentista(String nomeDentista) {
+        this.nomeDentista = nomeDentista;
+    }
+    
+    public String getCroDentista() {
+        return croDentista;
+    }
+
+    public void setCroDentista(String croDentista) {
+        this.croDentista = croDentista;
+    }
 
     public static ArrayList<Consulta> getConsulta() throws Exception{
-        String SQL = "SELECT * FROM tb_consulta";
+        String SQL = "SELECT a.dia, a.hr_inicio, a.hr_fim,  a.status, a.preco, a.obs, cliente.nome, dentista.nome, d.cro FROM tb_consulta a, tb_usuario cliente, tb_usuario dentista, tb_dentista d WHERE a.id_consulta = cliente.id_usuario and dentista.id_usuario = d.id_usuario";
         ArrayList<Consulta> consultas = new ArrayList<>();
         ArrayList<Object[]> list = DatabaseConnector.getQuery(SQL, new Object[]{});
         for(int i = 0; i < list.size(); i++){
             Object row[] = list.get(i);
             Consulta c = new Consulta(
-                    (long) row[0]
+                    (Date) row[0]
                     , (Date) row[1]
                     , (Date) row[2]
-                    , (Date) row[3]
-                    , (String) row[4]
-                    , (double) row[5]
+                    , (String) row[3]
+                    , (Double) row[4]
+                    , (String) row[5]
                     , (String) row[6]
-                    , (long) row[7]
-                    , (long) row[8]);
+                    , (String) row[7]
+                    , (String) row[8]);
             consultas.add(c);
         }
         return consultas;
@@ -127,13 +175,4 @@ public class Consulta {
         Object parameters[] = {dia, horaInicio, horaFim, preco, observacao, dentista, cliente};
         DatabaseConnector.execute(SQL, parameters);
     }
-
-    public Date getDia() {
-        return dia;
-    }
-
-    public void setDia(Date dia) {
-        this.dia = dia;
-    }
-    
 }
