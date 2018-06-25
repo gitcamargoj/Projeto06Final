@@ -98,6 +98,25 @@ public class Usuario {
         this.hashSenha = hashSenha;
     }
     
+    public static Usuario getTempUsuario(long id) throws Exception {
+        String SQL = "SELECT * FROM tb_usuario WHERE id_usuario = ?";
+        Object parameters[] = {id};
+        ArrayList<Object[]> list = DatabaseConnector.getQuery(SQL, parameters);
+        if(list.isEmpty()){
+            return null;
+        }else{
+            Object row[] = list.get(0);
+            Usuario u = new Usuario(
+                    (long) row[0]
+                    , (String) row[1]
+                    , (String) row[2]
+                    , (String) row[3]
+                    , (String) row[4]
+                    , (long) row[5]);
+            return u;
+        }
+    }
+    
     public static Usuario getUsuario(String login, String senha) throws Exception{
         String SQL = "SELECT * FROM tb_usuario WHERE login = ? AND hashSenha = ?";
         Object parameters[] = {login, senha.hashCode()};
@@ -163,7 +182,7 @@ public class Usuario {
         return usuarios;
     }
     
-    public static void addUsuario(String papel, String nome,String telefone, String login, long hashSenha) throws Exception{
+    public static void addUsuario(String papel, String nome, String telefone, String login, long hashSenha) throws Exception{
         String SQL = "INSERT INTO tb_usuario VALUES("
                 + "default"
                 + ", ?"
@@ -172,7 +191,13 @@ public class Usuario {
                 + ", ?"
                 + ", ?"
                 + ")";
-        Object parameters[] = {papel, nome,telefone, login, hashSenha};
+        Object parameters[] = {papel, nome, telefone, login, hashSenha};
+        DatabaseConnector.execute(SQL, parameters);
+    }
+    
+    public static void removeUsuario() throws Exception{
+        String SQL = "DELETE FROM tb_usuario WHERE id_usuario = LAST_INSERT_ID()";
+        Object parameters[] = {};
         DatabaseConnector.execute(SQL, parameters);
     }
     
@@ -181,5 +206,24 @@ public class Usuario {
         Object parameters[] = {id};
         DatabaseConnector.execute(SQL, parameters);
     }
+    
+    public static void alterUsuario(long id_usuario, String nome, String telefone, String login, long hashSenha) throws Exception {
+        String SQL = "UPDATE tb_usuario SET " +
+                "nome = '" + nome +
+                "', telefone = '" + telefone +
+                "', login = '" + login + 
+                "', hashSenha = " + hashSenha +
+                " WHERE id_usuario = " + id_usuario;
+        Object parameters[] = {};
+        DatabaseConnector.execute(SQL, parameters);
+    }
+    
+    
+    public static void atualizarTabs() {
+                String SQL = "DELETE FROM tb_usuario WHERE id_usuario = ?";
+
+
+        
+    }    
     
 }

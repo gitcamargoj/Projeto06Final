@@ -38,6 +38,22 @@ public class Dentista {
         this.id_usuario = id_usuario;
     }
     
+    public static Dentista getTempDentista(long id_usuario) throws Exception {
+        String SQL = "SELECT * FROM tb_dentista WHERE id_usuario = ?";
+        Object parameters[] = {id_usuario};
+        ArrayList<Object[]> list = DatabaseConnector.getQuery(SQL, parameters);
+        if(list.isEmpty()){
+            return null;
+        }else{
+            Object row[] = list.get(0);
+            Dentista d = new Dentista(
+                    (long) row[0]
+                    , (String) row[1]
+                    , (long) row[2]);
+            return d;
+        }
+    }
+    
     public static Dentista getDentista(String login, String senha) throws Exception{
         String SQL = "SELECT * FROM tb_usuario a inner join tb_dentista b on a.id_usuario = b.id_usuario  WHERE login = ? AND hashSenha = ?";
         Object parameters[] = {login, senha.hashCode()};
@@ -46,11 +62,11 @@ public class Dentista {
             return null;
         }else{
             Object row[] = list.get(0);
-            Dentista u = new Dentista(
+            Dentista d = new Dentista(
                     (long) row[0]
                     , (String) row[1]
                     , (long) row[2]);
-            return u;
+            return d;
         }
     }
     
@@ -68,22 +84,29 @@ public class Dentista {
         }
         return dentistas;
     }
-    public static void addDentista(String papel, String nome,String telefone, String login, long hashSenha) throws Exception{
-        String SQL = "INSERT INTO tb_dentista VALUES("
+    
+    public static void addDentista(String cro, String login, long hashSenha) throws Exception{
+        String SQL = "INSERT INTO tb_dentista VALUES ("
                 + "default"
                 + ", ?"
-                + ", ?"
-                + ")";
-        Object parameters[] = {papel, nome,telefone, login, hashSenha};
+                + ", (SELECT id_usuario FROM tb_usuario WHERE login = '" + login + "' AND hashSenha = " + hashSenha
+                + "))";
+        Object parameters[] = {cro};
         DatabaseConnector.execute(SQL, parameters);
     }
     
     public static void removeDentista(long id) throws Exception{
-        String SQL = "DELETE FROM tb_dentista WHERE id_dentista = ?";
+        String SQL = "DELETE FROM tb_dentista WHERE id_usuario = ?";
         Object parameters[] = {id};
         DatabaseConnector.execute(SQL, parameters);
     }
     
-    
+    public static void alterDentista(long id_usuario, String cro, String login, long hashSenha) throws Exception {
+        String SQL = "UPDATE tb_dentista SET " +
+                "cro = '" + cro +
+                "' WHERE id_usuario = " + id_usuario;
+        Object parameters[] = {};
+        DatabaseConnector.execute(SQL, parameters);
+    }
 }
 
