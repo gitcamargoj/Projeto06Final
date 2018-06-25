@@ -75,17 +75,17 @@
                 <fieldset>
                     <br>Cliente
                     <select name="cliente">
-                        <% for(Usuario u: Usuario.getClientes()) { %>
+                        <% for(Usuario clientes: Usuario.getClientes()) { %>
                         
-                                <option value="<%= u.getFk_cliente()%>"><%= u.getNome() %></option>
+                                <option value="<%= clientes.getFkCliente()%>"><%= clientes.getNome() %></option>
                             
                         <% } %>
                     </select>
                     Dentista
                     <select name="dentista">
-                        <% for(Usuario u: Usuario.getDentistas()) { %>
+                        <% for(Usuario dentistas: Usuario.getDentistas()) { %>
 
-                                <option value="<%= u.getFk_dentista()%>"><%= u.getNome() %></option>
+                                <option value="<%= dentistas.getFkDentista()%>"><%= dentistas.getNome() %></option>
 
                         <% } %>
                     </select> 
