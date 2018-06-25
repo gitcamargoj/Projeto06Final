@@ -11,6 +11,32 @@ public class Usuario {
     private String telefone;
     private String login;
     private Long hashSenha;
+    
+    Long fk_dentista;
+    Long fk_cliente;
+
+    public Usuario(long id_usuario, String papel, long fk_dentista, long fk_cliente) {
+        this.id_usuario = id_usuario;
+        this.papel = papel;
+        this.fk_dentista = fk_dentista;
+        this.fk_cliente = fk_cliente;
+    }
+
+    public long getFk_dentista() {
+        return fk_dentista;
+    }
+
+    public void setFk_dentista(long fk_dentista) {
+        this.fk_dentista = fk_dentista;
+    }
+
+    public long getFk_cliente() {
+        return fk_cliente;
+    }
+
+    public void setFk_cliente(long fk_cliente) {
+        this.fk_cliente = fk_cliente;
+    }
 
     public Usuario(long id_usuario, String papel, String nome, String telefone, String login, Long hashSenha) {
         this.id_usuario = id_usuario;
@@ -105,6 +131,39 @@ public class Usuario {
         }
         return usuarios;
     }
+    
+    public static ArrayList<Usuario> getDentistas() throws Exception{
+        String SQL = "SELECT * FROM tb_usuario a, tb_dentista b WHERE a.id_usuario = b.id_dentista";
+        ArrayList<Usuario> usuarios = new ArrayList<>();
+        ArrayList<Object[]> list = DatabaseConnector.getQuery(SQL, new Object[]{});
+        for(int i = 0; i < list.size(); i++){
+            Object row[] = list.get(i);
+            Usuario u = new Usuario(
+                    (Long) row[0]
+                    , (String) row[1]
+                    , (Long) row[2]
+                    , (Long) row[3]);
+            usuarios.add(u);
+        }
+        return usuarios;
+    }
+    
+    public static ArrayList<Usuario> getClientes() throws Exception{
+        String SQL = "SELECT * FROM tb_usuario a, tb_cliente b WHERE a.id_usuario = b.id_cliente";
+        ArrayList<Usuario> usuarios = new ArrayList<>();
+        ArrayList<Object[]> list = DatabaseConnector.getQuery(SQL, new Object[]{});
+        for(int i = 0; i < list.size(); i++){
+            Object row[] = list.get(i);
+            Usuario u = new Usuario(
+                    (Long) row[0]
+                    , (String) row[1]
+                    , (Long) row[2]
+                    , (Long) row[3]);
+            usuarios.add(u);
+        }
+        return usuarios;
+    }
+    
     public static void addUsuario(String papel, String nome,String telefone, String login, long hashSenha) throws Exception{
         String SQL = "INSERT INTO tb_usuario VALUES("
                 + "default"

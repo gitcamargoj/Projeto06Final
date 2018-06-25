@@ -23,7 +23,7 @@
         long cliente = Long.parseLong(request.getParameter("cliente"));
         try {
             Consulta.addConsulta(dia, horaInicio, horaFim, preco, observacao, dentista, cliente);
-            response.sendRedirect("../cliente/consultas_agendadas.jsp");
+            response.sendRedirect(request.getRequestURI());
         }catch(Exception e) {
             error = e.getMessage();
         }
@@ -37,7 +37,14 @@
     </head>
     <body>
         <%@include file="../WEB-INF/jspf/header.jspf" %>
-
+        <%if(session.getAttribute("usuario") == null){%>
+            <h2>É preciso estar autenticado para acessar este recurso</h2>
+        <% }else {%>
+            <% Usuario usuario = (Usuario) session.getAttribute("usuario"); %>
+            
+            <% if(error != null){ %>
+            <h3><%= error %></h3>
+        <% } %>
         <center>                                
             <form>
                 <fieldset>
@@ -66,18 +73,18 @@
                 <fieldset>
                     <br>Cliente
                     <select name="cliente">
-                        <% for(Usuario u: Usuario.getUsuarios()) { %>
-                            <% if(u.getPapel().equals("CLIENTE")) {%>
-                                <option value="<%= u.getId_usuario()%>"><%= u.getNome() %></option>
-                            <% } %>
+                        <% for(Usuario u: Usuario.getClientes()) { %>
+                        <%-- <% if(u.getPapel().equals("CLIENTE")) {%>
+                                <option value="<%= u.getFk_cliente()%>"><%= u.getNome() %></option>
+                            <% } %> --%>
                         <% } %>
                     </select>
                     Dentista
                     <select name="dentista">
-                        <% for(Usuario u: Usuario.getUsuarios()) { %>
-                            <% if(u.getPapel().equals("DENTISTA")) {%>
-                                <option value="<%= u.getId_usuario()%>"><%= u.getNome() %></option>
-                            <% } %>
+                        <% for(Usuario u: Usuario.getDentistas()) { %>
+                        <%--    <% if(u.getPapel().equals("DENTISTA")) {%>
+                                <option value="<%= u.getFk_dentista()%>"><%= u.getNome() %></option>
+                            <% } %> --%>
                         <% } %>
                     </select> 
                     &nbsp;&nbsp;<input class="btn-default" type="submit" name="formNewConsulta" value="Adicionar"/>
@@ -92,6 +99,7 @@
                 </fieldset>
             </form>
         </center>
+    <% } %>
         <%@include file="../WEB-INF/jspf/bootstrap_bottom.jspf" %>
     </body>
 </html>
