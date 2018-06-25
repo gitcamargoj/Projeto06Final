@@ -43,8 +43,9 @@ CREATE TABLE tb_consulta(
     id_consulta BIGINT not null primary key
         GENERATED ALWAYS AS IDENTITY
         (START WITH 1, INCREMENT BY 1)
-    , hr_inicio date
-    , hr_fim date
+    , dia date
+    , hr_inicio time
+    , hr_fim time
     , status varchar(50) not null
     , preco DOUBLE PRECISION 
     , obs varchar(200)
