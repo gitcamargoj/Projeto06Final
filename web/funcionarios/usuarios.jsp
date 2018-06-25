@@ -93,16 +93,20 @@
                                            <input type="submit" name="formDeleteUsuario" value="Remover"/>
                                        </form>
                                     </td>
+                                    <td>
+                                       <form>
+                                           <input type="hidden" name="id" value="<%= u.getId_usuario() %>"/>
+                                           <input type="submit" name="formAddUsuario" value="Alterar"/>
+                                       </form>
+                                    </td>
                                     <% } %>
                                 </tr>
                             </tbody>
                             <% } %>
                         </table>
                     </div>
-                    
                     <% } %>
             </center>
-            
             <% } %>
         <% } %>
         
