@@ -48,7 +48,7 @@ CREATE TABLE tb_consulta(
     , hr_fim time
     , status varchar(50) default 'AGENDADA' not null
     , preco DOUBLE PRECISION 
-    , obs varchar(200)
+    , obs varchar(200) default 'Não se aplica'
     , id_dentista BIGINT not null
     , id_cliente BIGINT not null
 );
@@ -98,3 +98,9 @@ INSERT INTO tb_usuario VALUES
 
 INSERT INTO tb_usuario VALUES
 (default, 'CLIENTE', 'Teddy Flood','11-97888-3030', 'teddy', 1509442);
+
+INSERT INTO TB_CLIENTE VALUES (default, 6);
+INSERT INTO TB_CLIENTE VALUES (default, 7);
+INSERT INTO TB_CLIENTE VALUES (default, 8);
+INSERT INTO TB_CLIENTE VALUES (default, 9);
+INSERT INTO TB_CLIENTE VALUES (default, 10);

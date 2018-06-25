@@ -78,7 +78,7 @@
             <a class="nav-link" href="<%=path%>/funcionarios/usuarios.jsp">Cadastro de Usúarios</a>
           </li>
           <li class="nav-item active">
-              <a class="nav-link" href="<%=path%>/cliente/consultas_agendadas.jsp">Consultas Agendadas</a>
+              <a class="nav-link" href="<%=path%>/funcionarios/consultas.jsp">Consultas</a>
           </li>
           <li class="nav-item active">
             <a class="nav-link" href="<%=path%>/funcionarios/relatorios.jsp">Relatórios</a>
@@ -102,10 +102,7 @@
             <a class="nav-link" href="<%=path%>/funcionarios/usuarios.jsp">Cadastro de Usúarios</a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="<%=path%>/funcionarios/agendamento_de_consultas.jsp">Agendamento de Consultas</a>
-          </li>
-          <li class="nav-item active">
-              <a class="nav-link" href="<%=path%>/cliente/consultas_agendadas.jsp">Consultas Agendadas</a>
+            <a class="nav-link" href="<%=path%>/funcionarios/consultas.jsp">Consultas</a>
           </li>
           
           
@@ -123,7 +120,7 @@
             </div>
           </li>
           <li class="nav-item active">
-              <a class="nav-link" href="<%=path%>/cliente/consultas_agendadas.jsp">Consultas Agendadas</a>
+              <a class="nav-link" href="<%=path%>/funcionarios/consultas.jsp">Consultas</a>
           </li>
     <%}%>
 <%}%>

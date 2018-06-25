@@ -140,7 +140,7 @@ public class Consulta {
     }
 
     public static ArrayList<Consulta> getConsulta() throws Exception{
-        String SQL = "SELECT a.dia, a.hr_inicio, a.hr_fim,  a.status, a.preco, a.obs, cliente.nome, dentista.nome, d.cro FROM tb_consulta a, tb_usuario cliente, tb_usuario dentista, tb_dentista d WHERE a.id_consulta = cliente.id_usuario and dentista.id_usuario = d.id_usuario";
+        String SQL = "SELECT a.dia, a.hr_inicio, a.hr_fim,  a.status, a.preco, a.obs, usuariocli.nome, usuariodent.nome, dentista.cro FROM tb_consulta a, tb_usuario usuariocli, tb_usuario usuariodent, tb_dentista dentista, tb_cliente cliente WHERE dentista.ID_DENTISTA = a.ID_DENTISTA and a.ID_CLIENTE = cliente.ID_CLIENTE and usuariocli.ID_USUARIO = cliente.ID_USUARIO and usuariodent.ID_USUARIO = dentista.ID_USUARIO ORDER BY a.DIA";
         ArrayList<Consulta> consultas = new ArrayList<>();
         ArrayList<Object[]> list = DatabaseConnector.getQuery(SQL, new Object[]{});
         for(int i = 0; i < list.size(); i++){
