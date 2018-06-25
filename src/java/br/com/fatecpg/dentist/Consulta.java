@@ -20,6 +20,15 @@ public class Consulta {
     private String nomeDentista;
     private String croDentista;
 
+    public Consulta(Date dia, Date hr_inicio, Date hr_fim, String status, String obs, String nomeCliente) {
+        this.dia = dia;
+        this.hr_inicio = hr_inicio;
+        this.hr_fim = hr_fim;
+        this.status = status;
+        this.obs = obs;
+        this.nomeCliente = nomeCliente;
+    }
+
     public Consulta(Date dia, Date hr_inicio, Date hr_fim, String status, double preco, String obs, String nomeCliente, String nomeDentista, String croDentista) {
         this.dia = dia;
         this.hr_inicio = hr_inicio;
@@ -31,18 +40,6 @@ public class Consulta {
         this.nomeDentista = nomeDentista;
         this.croDentista = croDentista;
     }
-    /*
-    public Consulta(long id_consulta, Date dia, Date hr_inicio, Date hr_fim, String status, double preco, String obs, long id_dentista, long id_cliente) {
-        this.id_consulta = id_consulta;
-        this.dia = dia;
-        this.hr_inicio = hr_inicio;
-        this.hr_fim = hr_fim;
-        this.status = status;
-        this.preco = preco;
-        this.obs = obs;
-        this.id_dentista = id_dentista;
-        this.id_cliente = id_cliente;
-    } */
     
     public long getId_consulta() {
         return id_consulta;
@@ -155,6 +152,23 @@ public class Consulta {
                     , (String) row[6]
                     , (String) row[7]
                     , (String) row[8]);
+            consultas.add(c);
+        }
+        return consultas;
+    }
+    public static ArrayList<Consulta> getConsultaUsuariosDentista(Long dentista) throws Exception{
+        String SQL = "SELECT a.dia, a.hr_inicio, a.hr_fim, a.status, a.obs, b.nome FROM tb_consulta a, tb_usuario b, tb_cliente c, tb_dentista dentista WHERE a.ID_CLIENTE = c.ID_CLIENTE and c.ID_USUARIO = b.ID_USUARIO and dentista.ID_DENTISTA = ?";
+        ArrayList<Consulta> consultas = new ArrayList<>();
+        ArrayList<Object[]> list = DatabaseConnector.getQuery(SQL, new Object[]{dentista});
+        for(int i = 0; i < list.size(); i++){
+            Object row[] = list.get(i);
+            Consulta c = new Consulta(
+                    (Date) row[0]
+                    , (Date) row[1]
+                    , (Date) row[2]
+                    , (String) row[3]
+                    , (String) row[4]
+                    , (String) row[5]);
             consultas.add(c);
         }
         return consultas;

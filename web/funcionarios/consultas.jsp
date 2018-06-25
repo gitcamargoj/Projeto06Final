@@ -121,18 +121,19 @@
             <h2>É preciso estar autenticado para acessar este recurso</h2>
         <% }else {%>
             <% Usuario usuario = (Usuario) session.getAttribute("usuario"); %>
-            <% if(!usuario.getPapel().equals("ADMIN") & !usuario.getPapel().equals("SECRETÁRIA") & !usuario.getPapel().equals("SECRETÁRIO")){%>
-            <h2>Você não tem permissão para acessar este recurso</h2>
+            <% if(!usuario.getPapel().equals("ADMIN") & !usuario.getPapel().equals("SECRETÁRIA") & !usuario.getPapel().equals("SECRETÁRIO") & !usuario.getPapel().equals("DENTISTA")){%>
+        <%--    <h2>Você não tem permissão para acessar este recurso</h2>
             <% }else {%>
             <%-- <% if(error != null){ %>
             <h3><%= error %></h3> --%>
             <% } %>
-        <center>
-            <br><h3>Consultas Agendadas</h3><br>
+            <center>
+                <br><h3>Consultas Agendadas</h3><br>
             
-            <button class="btn btn-primary btn btn-success" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                Agendar uma nova consulta
-            </button>
+                <button class="btn btn-primary btn btn-success" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Agendar uma nova consulta
+                </button>
+            </center>
             <div class="form-style-6 collapse" id="collapseExample">
                 <h1>Agendamento de Consultas</h1>
                     <form>
@@ -160,51 +161,187 @@
                         <input class="btn-default" type="submit" name="formNewConsulta" value="Adicionar"/>
                     </form>
             </div><hr>
-                            
+        <center>                
             <div class="table-responsive">
                 
                 <%if(session.getAttribute("usuario") != null){%>  
-                
-                <table class="table table-hover">
-                    <caption>Lista de Consultas Agendadas</caption>
-                    <thead class="thead-dark">
-                            <tr>
-                            <th scope="col" rowspan="2">Cliente</th>
-                            <th scope="col" rowspan="2">Data</th>
-                            <th scope="col" rowspan="2">Entrada</th>
-                            <th scope="col" rowspan="2">Saída</th>
-                            <th scope="col" rowspan="2">Profissional</th>
-                            <th scope="col" rowspan="2">CRO</th>
-                            <th scope="col" rowspan="2">Status</th>
-                            <th scope="col" rowspan="2">Observação</th>
-                            <th scope="col" rowspan="2">Valor da Consulta</th>
-                        </tr>
-                    </thead>
-                    <% for(Consulta c: Consulta.getConsulta()){ %>
-                        <tbody>
-                            <tr>
-                                <td><%= c.getNomeCliente() %></td>
-                                <td><%= c.getDia() %></td>
-                                <td><%= c.getHr_inicio() %></td>
-                                <td><%= c.getHr_fim() %></td>
-                                <td><%= c.getNomeDentista() %></td>
-                                <td><%= c.getCroDentista() %></td>
-                                <td><%= c.getStatus() %></td>
-                                <td>
-                                    <table class="table-bordered table-sm">
-                                        <tr class="table-secondary">
+                <% if (usuario.getPapel().equals("DENTISTA")) { %>
+                        <table class="table table-hover">
+                            <caption>Lista de Consultas Agendadas</caption>
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col" rowspan="2">Cliente</th>
+                                    <th scope="col" rowspan="2">Data</th>
+                                    <th scope="col" rowspan="2">Entrada</th>
+                                    <th scope="col" rowspan="2">Saída</th>
+                                    <th scope="col" rowspan="2">Status</th>
+                                    <th scope="col" rowspan="2">Observação</th>
+                                    <th scope="col" rowspan="2"><center><button>Alterar</button></center></th>
+                                    <th scope="col" rowspan="2"><center><button>Cancelar</button></center></th>
+                                </tr>
+                            </thead>
+                            <% for(Consulta c: Consulta.getConsulta()){ %>
+                            <% if(usuario.getNome().equals(c.getNomeDentista()) && !c.getStatus().equals("CANCELADA")) { %>
+                                <tbody>
+                                    <tr>
+                                        <td><%= c.getNomeCliente() %></td>
+                                        <td><%= c.getDia() %></td>
+                                        <td><%= c.getHr_inicio() %></td>
+                                        <td><%= c.getHr_fim() %></td>
+                                        <td><%= c.getStatus() %></td>
                                         <td>
-                                            <p><%= c.getObs() %></p>
+                                            <table class="table-bordered table-sm">
+                                                <tr class="table-secondary">
+                                                <td>
+                                                    <p><%= c.getObs() %></p>
+                                                </td>
+                                                </tr>
+                                            </table>
                                         </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                                <td><%= c.getPreco() %></td>
-                            </tr>
-                        </tbody>
+                                        <td><center><input type="radio" value="<%= c.getId_consulta() %>"/></center></td>
+                                        <td><center><input type="radio" value="<%= c.getId_consulta() %>"/></center></td>
+                                    </tr>
+                                </tbody>
+                                <% } %>
+                            <% } %>
+                        </table>
+                    <% }else if (usuario.getPapel().equals("SECRETÁRIA") || usuario.getPapel().equals("SECRETÁRIO")) { %>
+                        <table class="table table-hover">
+                            <caption>Lista de Consultas Agendadas</caption>
+                            <thead class="thead-dark">
+                                    <tr>
+                                    <th scope="col" rowspan="2">Cliente</th>
+                                    <th scope="col" rowspan="2">Data</th>
+                                    <th scope="col" rowspan="2">Entrada</th>
+                                    <th scope="col" rowspan="2">Saída</th>
+                                    <th scope="col" rowspan="2">Dentista</th>
+                                    <th scope="col" rowspan="2">CRO</th>
+                                    <th scope="col" rowspan="2">Status</th>
+                                    <th scope="col" rowspan="2">Observação</th>
+                                    <th scope="col" rowspan="2">Valor</th>
+                                    <th scope="col" rowspan="2"><center><button>Alterar</button></center></th>
+                                    <th scope="col" rowspan="2"><center><button>Cancelar</button></center></th>
+                                </tr>
+                            </thead>
+                            <% for(Consulta c: Consulta.getConsulta()){ %>
+                                <% if(!c.getStatus().equals("CANCELADA")) { %>
+                                <tbody>
+                                    <tr>
+                                        <td><%= c.getNomeCliente() %></td>
+                                        <td><%= c.getDia() %></td>
+                                        <td><%= c.getHr_inicio() %></td>
+                                        <td><%= c.getHr_fim() %></td>
+                                        <td><%= c.getNomeDentista() %></td>
+                                        <td><%= c.getCroDentista() %></td>
+                                        <td><%= c.getStatus() %></td>
+                                        <td>
+                                            <table class="table-bordered table-sm">
+                                                <tr class="table-secondary">
+                                                <td>
+                                                    <p><%= c.getObs() %></p>
+                                                </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td>R$ <%= c.getPreco() %></td>
+                                        <td><center><input type="radio" value="<%= c.getId_consulta() %>"/></center></td>
+                                        <td><center><input type="radio" value="<%= c.getId_consulta() %>"/></center></td>
+                                    </tr>
+                                </tbody>
+                            <% } %>
+                            <% } %>
+                        </table>
+                    <% }else if (usuario.getPapel().equals("ADMIN")) { %>
+                        <table class="table table-hover">
+                            <caption>Lista de Consultas Agendadas</caption>
+                            <thead class="thead-dark">
+                                    <tr>
+                                    <th scope="col" rowspan="2">Cliente</th>
+                                    <th scope="col" rowspan="2">Data</th>
+                                    <th scope="col" rowspan="2">Entrada</th>
+                                    <th scope="col" rowspan="2">Saída</th>
+                                    <th scope="col" rowspan="2">Dentista</th>
+                                    <th scope="col" rowspan="2">CRO</th>
+                                    <th scope="col" rowspan="2">Status</th>
+                                    <th scope="col" rowspan="2">Observação</th>
+                                    <th scope="col" rowspan="2">Valor</th>
+                                    <th scope="col" rowspan="2"><center><button>Alterar</button></center></th>
+                                    <th scope="col" rowspan="2"><center><button>Cancelar</button></center></th>
+                                    <th scope="col" rowspan="2"><center><button>Apagar</button></center></th>
+                                </tr>
+                            </thead>
+                            <% for(Consulta c: Consulta.getConsulta()){ %>
+                                <% if(!c.getStatus().equals("CANCELADA")) { %>
+                                <tbody>
+                                    <tr>
+                                        <td><%= c.getNomeCliente() %></td>
+                                        <td><%= c.getDia() %></td>
+                                        <td><%= c.getHr_inicio() %></td>
+                                        <td><%= c.getHr_fim() %></td>
+                                        <td><%= c.getNomeDentista() %></td>
+                                        <td><%= c.getCroDentista() %></td>
+                                        <td><%= c.getStatus() %></td>
+                                        <td>
+                                            <table class="table-bordered table-sm">
+                                                <tr class="table-secondary">
+                                                <td>
+                                                    <p><%= c.getObs() %></p>
+                                                </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td>R$ <%= c.getPreco() %></td>
+                                        <td><center><input type="radio" value="<%= c.getId_consulta() %>"/></center></td>
+                                        <td><center><input type="radio" value="<%= c.getId_consulta() %>"/></center></td>
+                                        <td><center><input type="radio" value="<%= c.getId_consulta() %>"/></center></td>
+                                    </tr>
+                                </tbody>
+                            <% } %>
+                            <% } %>
+                        </table>
+                    <% }else if (usuario.getPapel().equals("CLIENTE")) { %>
+                        <table class="table table-hover">
+                            <caption>Lista de Consultas Agendadas</caption>
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col" rowspan="2">Data</th>
+                                    <th scope="col" rowspan="2">Entrada</th>
+                                    <th scope="col" rowspan="2">Saída</th>
+                                    <th scope="col" rowspan="2">Dentista</th>
+                                    <th scope="col" rowspan="2">CRO</th>
+                                    <th scope="col" rowspan="2">Status</th>
+                                    <th scope="col" rowspan="2">Observação</th>
+                                    <th scope="col" rowspan="2">Valor</th>
+                                    <th scope="col" rowspan="2"><center><button>Cancelar</button></center></th>
+                                </tr>
+                            </thead>
+                            <% for(Consulta c: Consulta.getConsulta()){ %>
+                                <% if(usuario.getNome().equals(c.getNomeCliente()) && !c.getStatus().equals("CANCELADA")) { %>
+                                <tbody>
+                                    <tr>
+                                        <td><%= c.getDia() %></td>
+                                        <td><%= c.getHr_inicio() %></td>
+                                        <td><%= c.getHr_fim() %></td>
+                                        <td><%= c.getNomeDentista() %></td>
+                                        <td><%= c.getCroDentista() %></td>
+                                        <td><%= c.getStatus() %></td>
+                                        <td>
+                                            <table class="table-bordered table-sm">
+                                                <tr class="table-secondary">
+                                                <td>
+                                                    <p><%= c.getObs() %></p>
+                                                </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td>R$ <%= c.getPreco() %></td>
+                                        <td><center><input type="radio" value="<%= c.getId_consulta() %>"/></center></td>
+                                    </tr>
+                                </tbody>
+                            <% } %>
+                            <% } %>
+                        </table>
                     <% } %>
-                </table>
-                
                 <% } %>
                 
             </div>
