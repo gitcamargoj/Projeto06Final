@@ -11,34 +11,18 @@ public class Usuario {
     private String telefone;
     private String login;
     private Long hashSenha;
-    
-    long fk_dentista;
-    Long fk_cliente;
 
-    public Usuario(long id_usuario, long fk_dentista) {
-        this.id_usuario = id_usuario;
-        this.fk_dentista = fk_dentista;
+    private Long fkCliente;
+    private long fkDentista;
+
+    public Usuario(String nome, Long fkCliente) {
+        this.nome = nome;
+        this.fkCliente = fkCliente;
     }
 
-    public Usuario(long id_usuario, Long fk_cliente) {
-        this.id_usuario = id_usuario;
-        this.fk_cliente = fk_cliente;
-    }
-
-    public long getFk_dentista() {
-        return fk_dentista;
-    }
-
-    public void setFk_dentista(long fk_dentista) {
-        this.fk_dentista = fk_dentista;
-    }
-
-    public long getFk_cliente() {
-        return fk_cliente;
-    }
-
-    public void setFk_cliente(long fk_cliente) {
-        this.fk_cliente = fk_cliente;
+    public Usuario(String nome, long fkDentista) {
+        this.nome = nome;
+        this.fkDentista = fkDentista;
     }
 
     public Usuario(long id_usuario, String papel, String nome, String telefone, String login, Long hashSenha) {
@@ -98,6 +82,22 @@ public class Usuario {
         this.hashSenha = hashSenha;
     }
     
+    public Long getFkCliente() {
+        return fkCliente;
+    }
+
+    public void setFkCliente(Long fkCliente) {
+        this.fkCliente = fkCliente;
+    }
+
+    public Long getFkDentista() {
+        return fkDentista;
+    }
+
+    public void setFkDentista(Long fkDentista) {
+        this.fkDentista = fkDentista;
+    }
+    
     public static Usuario getUsuario(String login, String senha) throws Exception{
         String SQL = "SELECT * FROM tb_usuario WHERE login = ? AND hashSenha = ?";
         Object parameters[] = {login, senha.hashCode()};
@@ -135,29 +135,28 @@ public class Usuario {
         return usuarios;
     }
     
-    public static ArrayList<Usuario> getDentistas() throws Exception{
-        String SQL = "SELECT a.id_usuario, b.id_dentista FROM tb_usuario a, tb_dentista b WHERE a.id_usuario = b.id_dentista";
+    public static ArrayList<Usuario> getClientes() throws Exception{
+        String SQL = "SELECT a.nome, b.id_cliente FROM tb_usuario a, tb_cliente b WHERE a.ID_USUARIO = b.ID_USUARIO";
         ArrayList<Usuario> usuarios = new ArrayList<>();
         ArrayList<Object[]> list = DatabaseConnector.getQuery(SQL, new Object[]{});
         for(int i = 0; i < list.size(); i++){
             Object row[] = list.get(i);
             Usuario u = new Usuario(
-                    (long) row[0]
-                    , (long) row[1]);
+                    (String) row[0]
+                    , (Long) row[1]);
             usuarios.add(u);
         }
         return usuarios;
     }
-    
-    public static ArrayList<Usuario> getClientes() throws Exception{
-        String SQL = "SELECT a.id_usuario, b.id_cliente FROM tb_usuario a, tb_cliente b WHERE a.id_usuario = b.id_cliente";
+    public static ArrayList<Usuario> getDentistas() throws Exception{
+        String SQL = "SELECT a.nome, b.id_dentista FROM tb_usuario a, tb_dentista b WHERE a.ID_USUARIO = b.ID_USUARIO";
         ArrayList<Usuario> usuarios = new ArrayList<>();
         ArrayList<Object[]> list = DatabaseConnector.getQuery(SQL, new Object[]{});
         for(int i = 0; i < list.size(); i++){
             Object row[] = list.get(i);
             Usuario u = new Usuario(
-                    (long) row[0]
-                    , (Long) row[1]);
+                    (String) row[0]
+                    , (long) row[1]);
             usuarios.add(u);
         }
         return usuarios;
@@ -181,5 +180,5 @@ public class Usuario {
         Object parameters[] = {id};
         DatabaseConnector.execute(SQL, parameters);
     }
-    
+
 }

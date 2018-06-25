@@ -63,13 +63,13 @@
                 </fieldset>
 
                 <fieldset>
-                    <br>Preço<br>
-                    <input type="text" name="preco"/><br>
+                    <br>Preço em R$<br>
+                    <input type="text" name="preco" placeholder="150.45"/><br>
                 </fieldset>
                 
                 <fieldset>
                     <br>Observações<br>
-                    <textarea rows="6" cols="20" name="obs">Observações...</textarea><br>
+                    <textarea rows="6" cols="20" name="obs" placeholder="Exemplo: alérgico a anestésicos."></textarea><br>
                 </fieldset>
                 
                 <fieldset>
