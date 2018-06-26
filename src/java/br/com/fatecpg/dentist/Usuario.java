@@ -14,6 +14,10 @@ public class Usuario {
 
     private Long fkCliente;
     private long fkDentista;
+    
+    public Usuario(String papel) {
+        this.papel = papel;
+    }
 
     public Usuario(String nome, Long fkCliente) {
         this.nome = nome;
@@ -154,6 +158,25 @@ public class Usuario {
         return usuarios;
     }
     
+        public static ArrayList<Usuario> getUsuariosPapel(String papel) throws Exception{
+        String SQL = "SELECT * FROM tb_usuario WHERE papel = ?";
+        Object parameters[] = {papel};
+        ArrayList<Usuario> usuarios = new ArrayList<>();
+        ArrayList<Object[]> list = DatabaseConnector.getQuery(SQL, parameters);
+        for(int i = 0; i < list.size(); i++){
+            Object row[] = list.get(i);
+            Usuario u = new Usuario(
+                    (long) row[0]
+                    , (String) row[1]
+                    , (String) row[2]
+                    , (String) row[3]
+                    , (String) row[4]
+                    , (long) row[5]);
+            usuarios.add(u);
+        }
+        return usuarios;
+    }
+     
     public static ArrayList<Usuario> getClientes() throws Exception{
         String SQL = "SELECT a.nome, b.id_cliente FROM tb_usuario a, tb_cliente b WHERE a.ID_USUARIO = b.ID_USUARIO";
         ArrayList<Usuario> usuarios = new ArrayList<>();

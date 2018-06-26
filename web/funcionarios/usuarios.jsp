@@ -134,14 +134,35 @@
             <h3><%= error %></h3>
             <% } %>
             <center>
-                <br><h3>Cadastro de usuários</h3><br>
-                
-                                <fieldset>
-                <form>
-                 Adicionar: &nbsp;<input type="submit" name="AddUsuario" value="DENTISTA"/>&nbsp; 
-                 <input type="submit" name="AddUsuario" value="USUARIO"/>  
-                </form>
-                </fieldset><br>
+                <br><h3>Cadastro de usuários</h3>
+            
+                <table>    
+                    <fieldset>
+                    <form><tr>
+                        <td>        
+                            Filtrar por :<select name="filtro">
+                            <option value=""></option> 
+                            <option value="CLIENTE">Cliente</option>    
+                            <option value="ADMIN">ADMIN</option>
+                            <option value="SECRETÁRIO(A)">Secretária</option>
+                            <option value="DENTISTA">Dentista</option>
+                            </select>   
+                            &nbsp; 
+                            <input type="submit" name="FiltrarUsuario" value="Filtrar"/>  
+                            </form>
+                            </fieldset>&nbsp;&nbsp;
+                        </td>
+                        
+                    <td>   
+                    <fieldset>
+                    <form>
+                     Adicionar: &nbsp;<input type="submit" name="AddUsuario" value="DENTISTA"/>&nbsp; 
+                     <input type="submit" name="AddUsuario" value="USUARIO"/>
+                    </td>
+                    </tr></form>
+                    </fieldset>
+                        <table> <br><br>   
+
                 
                 <% if (request.getParameter("AddUsuario") != null && request.getParameter("AddUsuario").equals("DENTISTA")){ %>
                 <h4>Novo Dentista</h4>
@@ -227,7 +248,10 @@
                                     <th scope="col">Login</th>
                                 </tr>
                             </thead>
-                            <% for(Usuario u: Usuario.getUsuarios()){ %>
+                            
+             <% if (request.getParameter("FiltrarUsuario") == null ){ %>               
+                             <% for(Usuario u: Usuario.getUsuarios()){ %>
+
                             <tbody>
                                 <tr>
                                     <td><%= u.getId_usuario() %></td>
@@ -256,6 +280,46 @@
                                 </tr>
                             </tbody>
                             <% } %>
+            <% }else{ %>  
+            
+                            <% for(Usuario u: Usuario.getUsuariosPapel(request.getParameter("filtro"))){ %>
+
+                            <tbody>
+                                <tr>
+                                    <td><%= u.getId_usuario() %></td>
+                                    <td><%= u.getPapel() %></td>
+                                    <td><%= u.getNome() %></td>
+                                    <td><%= u.getTelefone() %></td>
+                                    <td><%= u.getLogin() %></td>
+                                    <% if (usuario.getPapel().equals("ADMIN")) { %> 
+                                    <td>
+                                       <form>
+                                           <input type="hidden" name="id" value="<%= u.getId_usuario() %>"/>
+                                           <input type="hidden" name="papel" value="<%= u.getPapel() %>">
+                                           <input type="hidden" name="login" value="<%= u.getLogin() %>">
+                                           <input type="hidden" name="hashSenha" value="<%= u.getHashSenha() %>">
+                                           <input type="submit" name="formDeleteUsuario" value="Remover"/>
+                                       </form>
+                                    </td>
+                                    <td>
+                                       <form>
+                                           <input type="hidden" name="id" value="<%= u.getId_usuario() %>"/>
+                                           <input type="hidden" name="papel" value="<%= u.getPapel() %>">
+                                           <input type="submit" name="formAlterUsuario" value="Alterar"/>
+                                       </form>
+                                    </td>
+                                    <% } %>
+                                </tr>
+                            </tbody>
+                            <% } %>            
+            
+            
+            
+            
+            
+            
+            
+            <% } %>
                         </table>
                     </div>
                     <% } %>
