@@ -28,6 +28,33 @@
         }catch(Exception e) {
             error = e.getMessage();
         }
+    }else if(request.getParameter("formRemoverConsulta") != null){
+        
+        Long id_consulta = Long.parseLong(request.getParameter("apagarConsulta"));
+        try {
+            Consulta.removeConsulta(id_consulta);
+            response.sendRedirect(request.getRequestURI());
+        }catch(Exception e) {
+            error = e.getMessage();
+        }
+    }else if(request.getParameter("formAlterarConsulta") != null){
+        
+        Long id_consulta = Long.parseLong(request.getParameter("alterarConsulta"));
+        try {
+            Consulta.removeConsulta(id_consulta);
+            response.sendRedirect(request.getRequestURI());
+        }catch(Exception e) {
+            error = e.getMessage();
+        }
+    }else if(request.getParameter("formCancelarConsulta") != null){
+        
+        Long id_consulta = Long.parseLong(request.getParameter("cancelarConsulta"));
+        try {
+            Consulta.cancelarConsulta(id_consulta);
+            response.sendRedirect(request.getRequestURI());
+        }catch(Exception e) {
+            error = e.getMessage();
+        }
     }
 %>
 <html>
@@ -117,19 +144,17 @@
     </head>
     <body>
         <%@include file="../WEB-INF/jspf/header.jspf" %>
-        <%if(session.getAttribute("usuario") == null){%>
-            <h2>É preciso estar autenticado para acessar este recurso</h2>
-        <% }else {%>
-            <% Usuario usuario = (Usuario) session.getAttribute("usuario"); %>
-            <% if(!usuario.getPapel().equals("ADMIN") & !usuario.getPapel().equals("SECRETÁRIA") & !usuario.getPapel().equals("SECRETÁRIO") & !usuario.getPapel().equals("DENTISTA")){%>
-        <%--    <h2>Você não tem permissão para acessar este recurso</h2>
-            <% }else {%>
-            <%-- <% if(error != null){ %>
-            <h3><%= error %></h3> --%>
-            <% } %>
-            <center>
-                <br><h3>Consultas Agendadas</h3><br>
+        <% if(session.getAttribute("usuario") == null) { %>
             
+        <% }else {%>
+        
+            <% Usuario usuario = (Usuario) session.getAttribute("usuario"); %>
+            
+            <center><br><h3>Consultas Agendadas</h3><br></center>
+            
+            <% if(!usuario.getPapel().equals("CLIENTE")) { %>  
+                
+            <center>
                 <button class="btn btn-primary btn btn-success" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                     Agendar uma nova consulta
                 </button>
@@ -161,10 +186,12 @@
                         <input class="btn-default" type="submit" name="formNewConsulta" value="Adicionar"/>
                     </form>
             </div><hr>
+            
+            <% } %>
         <center>                
             <div class="table-responsive">
                 
-                <%if(session.getAttribute("usuario") != null){%>  
+                 
                 <% if (usuario.getPapel().equals("DENTISTA")) { %>
                         <table class="table table-hover">
                             <caption>Lista de Consultas Agendadas</caption>
@@ -176,12 +203,12 @@
                                     <th scope="col" rowspan="2">Saída</th>
                                     <th scope="col" rowspan="2">Status</th>
                                     <th scope="col" rowspan="2">Observação</th>
-                                    <th scope="col" rowspan="2"><center><button>Alterar</button></center></th>
-                                    <th scope="col" rowspan="2"><center><button>Cancelar</button></center></th>
+                                    <th scope="col" rowspan="2"><center>Alterar</center></th>
+                                    <th scope="col" rowspan="2"><center>Cancelar</center></th>
                                 </tr>
                             </thead>
                             <% for(Consulta c: Consulta.getConsulta()){ %>
-                            <% if(usuario.getNome().equals(c.getNomeDentista()) && !c.getStatus().equals("CANCELADA")) { %>
+                            <% if(usuario.getNome().equals(c.getNomeDentista())) { %>
                                 <tbody>
                                     <tr>
                                         <td><%= c.getNomeCliente() %></td>
@@ -198,14 +225,17 @@
                                                 </tr>
                                             </table>
                                         </td>
-                                        <td><center><input type="radio" value="<%= c.getId_consulta() %>"/></center></td>
-                                        <td><center><input type="radio" value="<%= c.getId_consulta() %>"/></center></td>
+                                        <input type="hidden" name="alterarConsulta" value="<%= c.getId_consulta() %>"/>
+                                        <input type="hidden" name="cancelarConsulta" value="<%= c.getId_consulta() %>"/>
+                                        <td><center><input type="submit" name="formAlterarConsulta" value="Alterar"/></center></td>
+                                        <td><center><input type="submit" name="formCancelarConsulta" value="Cancelar"/></center></td>
                                     </tr>
                                 </tbody>
                                 <% } %>
                             <% } %>
                         </table>
-                    <% }else if (usuario.getPapel().equals("SECRETÁRIA") || usuario.getPapel().equals("SECRETÁRIO")) { %>
+                    <% }else if (usuario.getPapel().equals("SECRETÁRIA") 
+                                    || usuario.getPapel().equals("SECRETÁRIO")) { %>
                         <table class="table table-hover">
                             <caption>Lista de Consultas Agendadas</caption>
                             <thead class="thead-dark">
@@ -219,12 +249,11 @@
                                     <th scope="col" rowspan="2">Status</th>
                                     <th scope="col" rowspan="2">Observação</th>
                                     <th scope="col" rowspan="2">Valor</th>
-                                    <th scope="col" rowspan="2"><center><button>Alterar</button></center></th>
-                                    <th scope="col" rowspan="2"><center><button>Cancelar</button></center></th>
+                                    <th scope="col" rowspan="2"><center>Alterar</center></th>
+                                    <th scope="col" rowspan="2"><center>Cancelar</center></th>
                                 </tr>
                             </thead>
                             <% for(Consulta c: Consulta.getConsulta()){ %>
-                                <% if(!c.getStatus().equals("CANCELADA")) { %>
                                 <tbody>
                                     <tr>
                                         <td><%= c.getNomeCliente() %></td>
@@ -244,14 +273,16 @@
                                             </table>
                                         </td>
                                         <td>R$ <%= c.getPreco() %></td>
-                                        <td><center><input type="radio" value="<%= c.getId_consulta() %>"/></center></td>
-                                        <td><center><input type="radio" value="<%= c.getId_consulta() %>"/></center></td>
+                                        <input type="hidden" name="alterarConsulta" value="<%= c.getId_consulta() %>"/>
+                                        <input type="hidden" name="cancelarConsulta" value="<%= c.getId_consulta() %>"/>
+                                        <td><center><input type="submit" name="formAlterarConsulta" value="Alterar"/></center></td>
+                                        <td><center><input type="submit" name="formCancelarConsulta" value="Cancelar"/></center></td>
                                     </tr>
                                 </tbody>
-                            <% } %>
                             <% } %>
                         </table>
                     <% }else if (usuario.getPapel().equals("ADMIN")) { %>
+                    <form>
                         <table class="table table-hover">
                             <caption>Lista de Consultas Agendadas</caption>
                             <thead class="thead-dark">
@@ -265,13 +296,12 @@
                                     <th scope="col" rowspan="2">Status</th>
                                     <th scope="col" rowspan="2">Observação</th>
                                     <th scope="col" rowspan="2">Valor</th>
-                                    <th scope="col" rowspan="2"><center><button>Alterar</button></center></th>
-                                    <th scope="col" rowspan="2"><center><button>Cancelar</button></center></th>
-                                    <th scope="col" rowspan="2"><center><button>Apagar</button></center></th>
+                                    <th scope="col" rowspan="2"><center>Alterar</center></th>
+                                    <th scope="col" rowspan="2"><center>Cancelar</center></th>
+                                    <th scope="col" rowspan="2"><center>Apagar</center></th>
                                 </tr>
                             </thead>
                             <% for(Consulta c: Consulta.getConsulta()){ %>
-                                <% if(!c.getStatus().equals("CANCELADA")) { %>
                                 <tbody>
                                     <tr>
                                         <td><%= c.getNomeCliente() %></td>
@@ -291,14 +321,17 @@
                                             </table>
                                         </td>
                                         <td>R$ <%= c.getPreco() %></td>
-                                        <td><center><input type="radio" value="<%= c.getId_consulta() %>"/></center></td>
-                                        <td><center><input type="radio" value="<%= c.getId_consulta() %>"/></center></td>
-                                        <td><center><input type="radio" value="<%= c.getId_consulta() %>"/></center></td>
+                                        <input type="hidden" name="alterarConsulta" value="<%= c.getId_consulta() %>"/>
+                                        <input type="hidden" name="cancelarConsulta" value="<%= c.getId_consulta() %>"/>
+                                        <input type="hidden" name="apagarConsulta" value="<%= c.getId_consulta() %>"/>
+                                        <td><center><input type="submit" name="formAlterarConsulta" value="Alterar"/></center></td>
+                                        <td><center><input type="submit" name="formCancelarConsulta" value="Cancelar"/></center></td>
+                                        <td><center><input type="submit" name="formRemoverConsulta" value="Apagar"/></center></td>
                                     </tr>
                                 </tbody>
                             <% } %>
-                            <% } %>
                         </table>
+                    </form>
                     <% }else if (usuario.getPapel().equals("CLIENTE")) { %>
                         <table class="table table-hover">
                             <caption>Lista de Consultas Agendadas</caption>
@@ -312,11 +345,11 @@
                                     <th scope="col" rowspan="2">Status</th>
                                     <th scope="col" rowspan="2">Observação</th>
                                     <th scope="col" rowspan="2">Valor</th>
-                                    <th scope="col" rowspan="2"><center><button>Cancelar</button></center></th>
+                                    <th scope="col" rowspan="2"><center>Cancelar</center></th>
                                 </tr>
                             </thead>
                             <% for(Consulta c: Consulta.getConsulta()){ %>
-                                <% if(usuario.getNome().equals(c.getNomeCliente()) && !c.getStatus().equals("CANCELADA")) { %>
+                                <% if(usuario.getNome().equals(c.getNomeCliente())) { %>
                                 <tbody>
                                     <tr>
                                         <td><%= c.getDia() %></td>
@@ -335,14 +368,15 @@
                                             </table>
                                         </td>
                                         <td>R$ <%= c.getPreco() %></td>
-                                        <td><center><input type="radio" value="<%= c.getId_consulta() %>"/></center></td>
+                                        <input type="hidden" name="alterarConsulta" value="<%= c.getId_consulta() %>"/>
+                                        <td><center><input type="submit" name="formCancelarConsulta" value="Cancelar"/></center></td>
                                     </tr>
                                 </tbody>
                             <% } %>
                             <% } %>
                         </table>
                     <% } %>
-                <% } %>
+                
                 
             </div>
         </center>

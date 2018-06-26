@@ -29,7 +29,8 @@ public class Consulta {
         this.nomeCliente = nomeCliente;
     }
 
-    public Consulta(Date dia, Date hr_inicio, Date hr_fim, String status, double preco, String obs, String nomeCliente, String nomeDentista, String croDentista) {
+    public Consulta(Long id_consulta, Date dia, Date hr_inicio, Date hr_fim, String status, double preco, String obs, String nomeCliente, String nomeDentista, String croDentista) {
+        this.id_consulta = id_consulta;
         this.dia = dia;
         this.hr_inicio = hr_inicio;
         this.hr_fim = hr_fim;
@@ -137,21 +138,22 @@ public class Consulta {
     }
 
     public static ArrayList<Consulta> getConsulta() throws Exception{
-        String SQL = "SELECT a.dia, a.hr_inicio, a.hr_fim,  a.status, a.preco, a.obs, usuariocli.nome, usuariodent.nome, dentista.cro FROM tb_consulta a, tb_usuario usuariocli, tb_usuario usuariodent, tb_dentista dentista, tb_cliente cliente WHERE dentista.ID_DENTISTA = a.ID_DENTISTA and a.ID_CLIENTE = cliente.ID_CLIENTE and usuariocli.ID_USUARIO = cliente.ID_USUARIO and usuariodent.ID_USUARIO = dentista.ID_USUARIO ORDER BY a.DIA";
+        String SQL = "SELECT a.id_consulta, a.dia, a.hr_inicio, a.hr_fim,  a.status, a.preco, a.obs, usuariocli.nome, usuariodent.nome, dentista.cro FROM tb_consulta a, tb_usuario usuariocli, tb_usuario usuariodent, tb_dentista dentista, tb_cliente cliente WHERE dentista.ID_DENTISTA = a.ID_DENTISTA and a.ID_CLIENTE = cliente.ID_CLIENTE and usuariocli.ID_USUARIO = cliente.ID_USUARIO and usuariodent.ID_USUARIO = dentista.ID_USUARIO ORDER BY a.DIA";
         ArrayList<Consulta> consultas = new ArrayList<>();
         ArrayList<Object[]> list = DatabaseConnector.getQuery(SQL, new Object[]{});
         for(int i = 0; i < list.size(); i++){
             Object row[] = list.get(i);
             Consulta c = new Consulta(
-                    (Date) row[0]
+                    (Long) row[0]
                     , (Date) row[1]
                     , (Date) row[2]
-                    , (String) row[3]
-                    , (Double) row[4]
-                    , (String) row[5]
+                    , (Date) row[3]
+                    , (String) row[4]
+                    , (Double) row[5]
                     , (String) row[6]
                     , (String) row[7]
-                    , (String) row[8]);
+                    , (String) row[8]
+                    , (String) row[9]);
             consultas.add(c);
         }
         return consultas;
@@ -187,6 +189,28 @@ public class Consulta {
                 + ", ?"
                 + ")";
         Object parameters[] = {dia, horaInicio, horaFim, preco, observacao, dentista, cliente};
+        DatabaseConnector.execute(SQL, parameters);
+    }
+    
+    public static void removeConsulta(long id_consulta) throws Exception{
+        String SQL = "DELETE FROM tb_consulta WHERE id_consulta = ?";
+        Object parameters[] = {id_consulta};
+        DatabaseConnector.execute(SQL, parameters);
+    }
+    
+    public static void alterConsulta(long id_usuario, String nome, String telefone, String login, long hashSenha) throws Exception {
+        String SQL = "UPDATE tb_usuario SET "
+                + "nome = '" + nome
+                + "', telefone = '" + telefone
+                + "', login = '" + login
+                + "', hashSenha = " + hashSenha
+                + " WHERE id_usuario = " + id_usuario;
+        Object parameters[] = {};
+        DatabaseConnector.execute(SQL, parameters);
+    }
+    public static void cancelarConsulta(Long id_consulta) throws Exception {
+        String SQL = "UPDATE tb_consulta SET status = 'CANCELADA' WHERE id_consulta = ?";
+        Object parameters[] = {id_consulta};
         DatabaseConnector.execute(SQL, parameters);
     }
 }

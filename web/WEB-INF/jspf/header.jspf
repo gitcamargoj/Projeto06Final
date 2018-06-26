@@ -28,7 +28,7 @@
 
 
 <%if(session.getAttribute("usuario") == null){%>
-<span class="navbar-text">Você precisa entrar para acessar essa funcionalidade. <a href="<%=path%>/login.jsp">Fazer login!</a></span>
+<span class="navbar-text">Você precisa entrar para acessar essa funcionalidade. <a href="<%=path%>/login.jsp">Fazer login!</a></span><br>
 
 
 
@@ -57,7 +57,7 @@
             </div>
           </li>
           <li class="nav-item active">
-              <a class="nav-link" href="<%=path%>/cliente/consultas_agendadas.jsp">Consultas Agendadas</a>
+              <a class="nav-link" href="<%=path%>/funcionarios/consultas.jsp">Consultas</a>
           </li>
           
           
